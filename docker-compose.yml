@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: flowspec-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+      - DATABASE_URL=sqlite:///flowspec.db
+      - EXABGP_HOST=exabgp
+      - EXABGP_PORT=6001
+      - JWT_SECRET_KEY=change-me-in-production
+      - SECRET_KEY=change-me-in-production
+    volumes:
+      - ./backend:/app
+      - ./data:/app/data
+    networks:
+      - flowspec-net
+    depends_on:
+      - exabgp
+    command: python app.py
+
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: flowspec-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000
+    networks:
+      - flowspec-net
+    depends_on:
+      - backend
+
+  # ExaBGP (optional, for testing)
+  exabgp:
+    image: exabgp:latest
+    container_name: flowspec-exabgp
+    ports:
+      - "6001:6001"
+    volumes:
+      - ./exabgp-config:/etc/exabgp
+    networks:
+      - flowspec-net
+    command: exabgp /etc/exabgp/exabgp.conf
+    profiles:
+      - optional
+
+networks:
+  flowspec-net:
+    driver: bridge
