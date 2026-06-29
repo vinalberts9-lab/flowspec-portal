@@ -1,0 +1,52 @@
+.create-rule-page {
+  animation: fadeIn 0.3s ease-in;
+}
+
+.create-rule-page h2 {
+  margin-bottom: 24px;
+  color: #333;
+}
+
+.create-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.form-section {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.preview-section {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.preview-section h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.preview-section pre {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 12px;
+  overflow-x: auto;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #333;
+  max-height: 600px;
+}
+
+@media (max-width: 1024px) {
+  .create-container {
+    grid-template-columns: 1fr;
+  }
+}
